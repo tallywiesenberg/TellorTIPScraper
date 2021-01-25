@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+web3 = "*"
+pandas = "*"
+seaborn = "*"
+matplotlib = "*"
+python-decouple = "*"
+requests = "*"
+tqdm = "*"
+ipykernel = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.8"

@@ -1,11 +1,12 @@
 import pandas as pd
 import requests
+from tqdm import tqdm
 
 from keys import *
 
 #variables for request
-vote_init_block = 11074853
-end_block = 11111896
+vote_init_block = 11112000
+end_block = 11725733
 topic0 = "0x911ef2e98570b1d96c0e8ef81107a33d5b8e844aeb8f9710f9bc76c3b3fef40e"
 
 r = requests.get(f'https://api.etherscan.io/api?module=logs&action=getLogs&address={address}&fromBlock={vote_init_block}&toBlock={end_block}&topic0={topic0}&apikey={ETHERSCAN_KEY}').json()
@@ -16,7 +17,7 @@ counter = 0
 addresses = []
 balances = []
 
-for i in r['result']:
+for i in tqdm(r['result']):
     #convert and save voter addresses
     voter_address = "0x" + i['topics'][2][-40:]
     voter_address_checksum = Web3.toChecksumAddress(voter_address)
@@ -37,8 +38,8 @@ votes = tellor_filter.get_all_entries()
 
 ##Loop through voting events to find position on TIP
 
-positions = [voter['args']['_position'] for voter in votes]
-addresses = [voter['args']['_voter'] for voter in votes]
+positions = [voter['args']['_position'] for voter in tqdm(votes)]
+addresses = [voter['args']['_voter'] for voter in tqdm(votes)]
 
 df_votes = pd.DataFrame({"Address": addresses, "Vote": positions})
 
